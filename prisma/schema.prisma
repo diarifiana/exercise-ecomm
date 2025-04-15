@@ -52,14 +52,34 @@ model Store {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   price     Int
   stock     Int
   storeId   Int
-  store     Store    @relation(fields: [storeId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug      String    @unique
+  store     Store     @relation(fields: [storeId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@map("products")
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  categoryId  Int
+  organizerId Int
+  slug        String
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  location    String
+  thumbnail   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@map("events")
 }
