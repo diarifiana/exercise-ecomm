@@ -3,11 +3,11 @@ import {
   loginController,
   registerController,
 } from "../controllers/auth.controller";
-import { validateLogin } from "../validators/auth.valid";
+import { validateLogin, validateRegister } from "../validators/auth.valid";
 
 const router = Router();
 
-router.post("/register", registerController);
+router.post("/register", validateRegister, registerController);
 router.post("/login", validateLogin, loginController);
 
 export default router;

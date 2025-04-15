@@ -9,11 +9,33 @@ export const validateLogin = [
 
   body("password").notEmpty().withMessage("Password is required").isString(),
 
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request, _res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       throw new ApiError(errors.array()[0].msg, 400);
     }
+
+    next();
+  },
+];
+
+export const validateRegister = [
+  body("email").notEmpty().withMessage("Email is required").isEmail(),
+
+  body("password").notEmpty().withMessage("Password is required").isString(),
+
+  body("fullName").notEmpty().withMessage("Name is required").isString(),
+
+  body("role").notEmpty().withMessage("Role is required").isString(),
+
+  (req: Request, _res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      throw new ApiError(errors.array()[0].msg, 400);
+    }
+
+    next();
   },
 ];

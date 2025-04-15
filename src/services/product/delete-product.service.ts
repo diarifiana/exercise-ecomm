@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma";
+import { cloudinaryRemove } from "../../lib/cloudinary";
 import { ApiError } from "../../utils/api-error";
 
 export const deleteProductService = async (id: number, authUserId: number) => {
@@ -15,9 +16,11 @@ export const deleteProductService = async (id: number, authUserId: number) => {
     throw new ApiError("Unauthorised", 401);
   }
 
+  await cloudinaryRemove(product.thumbnail);
+
   await prisma.product.update({
     where: { id: id },
-    data: { deletedAt: new Date() },
+    data: { deletedAt: new Date(), thumbnail: "" },
   });
 
   return { message: "Product deleted" };
