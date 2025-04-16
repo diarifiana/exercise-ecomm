@@ -27,5 +27,15 @@ services:
     network: 
       - express_network
 
+  redis:
+    image: redis
+    restart: always
+    volumes: 
+      - ./docker/redis:/data
+    ports:
+      - 6379:6379
+    networks:
+      - express_network
+    
 networks:
   express_network:
