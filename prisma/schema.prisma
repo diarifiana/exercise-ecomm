@@ -4,9 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 // create your own model below
@@ -54,6 +54,7 @@ model Store {
 model Product {
   id        Int       @id @default(autoincrement())
   name      String
+  thumbnail String
   price     Int
   stock     Int
   storeId   Int

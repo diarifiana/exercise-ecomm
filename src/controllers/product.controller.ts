@@ -11,7 +11,7 @@ export const createProductController = async (
   next: NextFunction
 ) => {
   try {
-    const result = await createProductService(req.body);
+    const result = await createProductService(req.body, req.body.thumbnail);
     res.status(200).send(result);
   } catch (error) {
     next(error);
