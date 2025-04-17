@@ -1,18 +1,18 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      container_name: express-ecommerce_container
-      restart: always
-      ports:
-        - '8000:8000'
-      env_file:
-        - .env
-      depends_on:
-        - db
-      network: 
-        - express_network
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     container_name: express-ecommerce_container
+  #     restart: always
+  #     ports:
+  #       - '8000:8000'
+  #     env_file:
+  #       - .env
+  #     depends_on:
+  #       - db
+  #     networks: 
+  #       - express_network
 
   db:
     image: postgres
@@ -24,16 +24,17 @@ services:
       - ./docker/postgres:/var/lib/postgresql/data
     ports:
       - '7654:5432'
-    network: 
+    networks: 
       - express_network
 
   redis:
     image: redis
+    container_name: redis_container
     restart: always
     volumes: 
       - ./docker/redis:/data
     ports:
-      - 6379:6379
+      - '6379:6379'
     networks:
       - express_network
     

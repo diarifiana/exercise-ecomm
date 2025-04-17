@@ -6,6 +6,9 @@ import sampleRouter from "./routes/sample.router";
 import authRouter from "./routes/auth.router";
 import productRouter from "./routes/product.router";
 import eventRouter from "./routes/event.router";
+import transactionRouter from "./routes/transaction.router";
+
+import "./jobs"; // importing index.ts
 
 const app = express();
 
@@ -16,6 +19,7 @@ app.use("/samples", sampleRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/events", eventRouter);
+app.use("/transactions", transactionRouter);
 
 app.use(errorMiddleware);
 

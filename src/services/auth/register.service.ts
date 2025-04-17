@@ -5,7 +5,7 @@ import { hashPassword } from "../../lib/argon";
 import { transporter } from "../../lib/nodemailer";
 import { join } from "path";
 import fs from "fs/promises";
-import Handlebars from "handlebars";
+// import Handlebars from "handlebars";
 
 export const registerService = async (body: User) => {
   // cek email sudah terpakai atau belum
@@ -33,9 +33,9 @@ export const registerService = async (body: User) => {
 
   const templateSource = (await fs.readFile(templatePath)).toString();
 
-  const compiledTemplate = Handlebars.compile(templateSource);
+  // const compiledTemplate = Handlebars.compile(templateSource);
 
-  const html = compiledTemplate();
+  // const html = compiledTemplate();
 
   transporter.sendMail({
     to: body.email,

@@ -20,15 +20,16 @@ model Sample {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  fullName  String
-  email     String    @unique
-  password  String
-  role      Role      @default(USER)
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Store     Store[]
+  id           Int           @id @default(autoincrement())
+  fullName     String
+  email        String        @unique
+  password     String
+  role         Role          @default(USER)
+  deletedAt    DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Store        Store[]
+  transactions Transaction[]
 
   @@map("users")
 }
@@ -46,23 +47,24 @@ model Store {
   user      User      @relation(fields: [userId], references: [id]) // shift + alt + f
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Products  Product[]
+  products  Product[]
 
   @@map("stores")
 }
 
 model Product {
-  id        Int       @id @default(autoincrement())
-  name      String
-  thumbnail String
-  price     Int
-  stock     Int
-  storeId   Int
-  slug      String    @unique
-  store     Store     @relation(fields: [storeId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id           Int           @id @default(autoincrement())
+  name         String
+  thumbnail    String
+  price        Int
+  stock        Int
+  storeId      Int
+  slug         String        @unique
+  store        Store         @relation(fields: [storeId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  transactions Transaction[]
 
   @@map("products")
 }
@@ -83,4 +85,28 @@ model Event {
   deletedAt   DateTime?
 
   @@map("events")
+}
+
+model Transaction {
+  id           Int               @id @default(autoincrement())
+  uuid         String            @unique @default(uuid())
+  productId    Int
+  product      Product           @relation(fields: [productId], references: [id])
+  qty          Int
+  status       TransactionStatus @default(WAITING_FOR_PAYMENT)
+  paymentProof String?
+  userId       Int
+  user         User              @relation(fields: [userId], references: [id])
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@map("transactions")
+}
+
+enum TransactionStatus {
+  WAITING_FOR_PAYMENT
+  WAITING_CONFIRMATION
+  PAID
+  REJECTED
+  EXPIRED
 }
